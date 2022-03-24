@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-//const cookieSession = require('cookie-session');
+const {MONGOOSE_URL} = require('./app/config/db.config.js');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./app/routes/auth.routes');
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 //parse cookies
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGOOSE_URL, {
+mongoose.connect(MONGOOSE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
