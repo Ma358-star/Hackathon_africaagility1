@@ -1,7 +1,8 @@
 const User = require('../models/user.model');
 const routes = require('express').Router();
-//const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+
 
 //Register
 routes.post('/register', async (req, res) => {
@@ -13,8 +14,8 @@ routes.post('/register', async (req, res) => {
                     message: 'Content cannot be empty!'
                 })
             } else {
-                const user = await User.findOne({email: email});
-                console.log('Found user: ', user);
+                const user = await User.findOne({name: name});
+                console.log('Found user :', user);
         
                 if(!user) {
                     await bcrypt.hash(password, 10).then(hashedPassword => {
@@ -38,14 +39,16 @@ routes.post('/register', async (req, res) => {
                 }
                 
             }
-        } catch (err) {
-            res.status(500).json(error)
+        } catch (error) {
+            //res.status(500).json(error)
             console.log(error)
         }
 });
+       //Login
 
-//Login
 routes.post('/login', async (req, res) =>{
+
+    
     const {email, password} = req.body;
 
     try {
@@ -67,8 +70,10 @@ routes.post('/login', async (req, res) =>{
             res.status(200).json({message: 'User logged in successfully', user: user, token})
         }
 
-    } catch (err) {
+    } catch (error) {
         res.status(500).json(error)
-    console.log(error)
+        console.log(error)
     }
 });
+
+module.exports =routes;

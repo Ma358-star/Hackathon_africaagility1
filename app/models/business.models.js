@@ -1,31 +1,30 @@
 const mongoose = require("mongoose");
 
-const User = mongoose.model(
-    'User', 
+const Business = mongoose.model(
+    'Business', 
     new mongoose.Schema({
-        name: {
+        userId : {
+        type: String, 
+        required: true
+       },
+        businessName: {
             type: String,
             required: true,
             min: 3,
             max: 20
         },
-        email: {
-            type: String,
-            required: true,
-            min: 8,
-            max: 50
-        },
-        password: {
+
+        businessModel: {
             type: String,
             required: true,
             min: 8
         },
 
-        confirm_pass: {
+        previousApp: {
             type: String,
             required: true,
             min: 8
         },
     }, {timestamps: true})
 )
-module.exports = User;
+module.exports = Business;

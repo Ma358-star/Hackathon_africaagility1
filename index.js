@@ -5,7 +5,9 @@ const cookieParser = require('cookie-parser');
 //const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const userRoutes = require('./app/routes/auth.routes');
+const businessRoutes = require('./app/routes/business.routes');
+const receiptRoutes = require('./app/routes/receipt.routes');
 const app = express();
 
 let corsOptions = {
@@ -30,8 +32,7 @@ app.use(cookieParser());
 mongoose.connect(process.env.MONGOOSE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-})
-.then(() => {
+}).then(() => {
     console.log("Successfully connect to MongoDB.");
 })
 .catch(err => {
@@ -43,6 +44,10 @@ mongoose.connect(process.env.MONGOOSE_URL, {
 app.get('/', (req, res) => {
     res.json({message: 'Welcome to InBook Platform.'});
 })
+
+app.use('/api/auth', userRoutes);
+app.use('/api/auth', businessRoutes);
+app.use('/api/auth', receiptRoutes);
 
 let PORT = process.env.PORT;
 
